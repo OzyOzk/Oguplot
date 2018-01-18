@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 #sudocode
+'''
+Need to add feature to split line into three components
+and display on same graph
+'''
 
 from pyqtgraph.Qt import QtGui, QtCore
 import numpy as np

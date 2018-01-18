@@ -1,4 +1,4 @@
-My Repository: __Oguplot Repository__
+__Oguplot Repository__
 =====================================
 
 Repository to contain source code and versions of the python

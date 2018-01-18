@@ -9,3 +9,18 @@ live plot project. Contains:
 * Workflow
 * Research
 * Features to be added
+
+Current Issues:
+
+The lists are growing!
+
+These lines need to be replaced:
+
+```
+	    data1.append(float(set1))
+	    data2.append(float(set2))
+```
+
+These list just keep growing. Also, I'm appending floats which are very large
+
+

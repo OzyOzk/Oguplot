@@ -16,7 +16,7 @@ The lists are growing!
 
 These lines need to be replaced:
 
-```
+```python
 	    data1.append(float(set1))
 	    data2.append(float(set2))
 ```

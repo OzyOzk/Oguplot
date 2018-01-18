@@ -35,18 +35,31 @@ win.resize(1000,600)
 
 pg.setConfigOptions(antialias=True)
 
-p6 = win.addPlot(title="Updating plot")
+p6 = win.addPlot(title="Raw accellerometer data")
 p6.setRange(yRange=[-18000,18000])
-curve = p6.plot(pen='b')
-data = [0]
+curve1 = p6.plot(pen='y')
+curve2 = p6.plot(pen='g')
+data1 = [0]
+data2 = [0]
+data3 = [0]
 
 def update():
-    global curve, data
+    global curve1, curve2, data1, data2, data3
     line = ser.readline()
-    data.append(float(line))
-    xdata = np.array(data[-500:], dtype='float32')
-    curve.setData(xdata)
-    app.processEvents()
+    csv = line.split(',')
+    if len(csv) == 3:
+	    set1 = csv[0]
+	    set2 = csv[1]
+	    set3 = csv[2]
+	    #print set1, set2
+	    data1.append(float(set1))
+	    data2.append(float(set2))
+            data3.append(float(set3))
+	    xdata1 = np.array(data3[-500:], dtype='float32')
+	    xdata2 = np.array(data3[-500:], dtype='float32')
+	    curve1.setData(xdata1)
+	    curve2.setData(xdata2)
+	    app.processEvents()
 
 
 timer = QtCore.QTimer()

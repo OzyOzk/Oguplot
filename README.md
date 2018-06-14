@@ -12,7 +12,7 @@ live plot project. Contains:
 
 Current Issues:
 
-The lists are growing!
+The lists need to be roled to avoid them getting to large.
 
 These lines need to be replaced:
 

@@ -35,7 +35,8 @@ def update():
             data3.append(float(set3))
 ```
 
-These list just keep growing. Also, I'm appending floats which are 32 bits each. These arrays (data1, data2, data3) grow in size significantly (3000 elements in 1 minute). This could potentially lead to some memory issues. 
+the arrays keep growing. Also appending floats which are 32 bits each. These arrays (data1, data2, data3) grow in size significantly (3000 elements in 1 minute). 
+
 3000 x 3 x 32=288000.
 
 288000/4=72000 bytes

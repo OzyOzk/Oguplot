@@ -43,22 +43,17 @@ curve2 = p6.plot(pen='g')
 
 data1 = [0]
 data2 = [0]
-data3 = [0]
 x=0
 def update():
     global curve1, curve2, data1, data2, x
     line = ser.readline()
-    csv = line.split(',')
-    if len(csv) == 2:
-	    
+    csv = line.decode().split(',')
+    if len(csv) == 2:	    
 	    set1 = csv[0]
 	    set2 = csv[1]
-	    #set3 = csv[2]
-	    #print set1, set2
 	    data1.append(float(set1))
 	    data2.append(float(set2))
-	    print len(data1), len(data2)
-            #data3.append(float(set3))
+	    print (len(data1), len(data2))
 	    xdata1 = np.array(data1[-500:], dtype='float32')
 	    xdata2 = np.array(data2[-500:], dtype='float32')
 	    curve1.setData(xdata1)

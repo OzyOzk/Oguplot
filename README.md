@@ -2,7 +2,7 @@ __Oguplot Repository__
 =====================================
 
 Repository to contain source code and versions of the python
-live plot project. Contains:
+live plot project. Will contain;
 
 * Code
 * Plan

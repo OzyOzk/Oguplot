@@ -23,7 +23,7 @@ Restarting the kernel is a solution.
 
 <s>These lines need to be replaced:<\s>
 
-Now popping after each append
+Now popping after each append,
 
 ```python
 def update():

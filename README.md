@@ -19,9 +19,9 @@ SerialException: could not open port 'COM3': PermissionError(13, 'Access is deni
 Restarting the kernel is a solution.
 
 
-<s>The lists need to be roled to avoid them getting too large.<\s>
+<s>The lists need to be roled to avoid them getting too large.</s>
 
-<s>These lines need to be replaced<\s>
+<s>These lines need to be replaced</s>
 
 Now popping after each append,
 

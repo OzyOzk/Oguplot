@@ -1,7 +1,7 @@
 
 from pyqtgraph.Qt import QtGui, QtCore
 import numpy as np
-import pyqtgraph as pg==============================================
+import pyqtgraph as pg
 
 import serial.tools.list_ports
 controller = serial.Serial

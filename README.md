@@ -16,7 +16,7 @@ Pyserial warning. The following error warning keeps coming up when I run on Wind
 ```
 SerialException: could not open port 'COM3': PermissionError(13, 'Access is denied.', None, 5)
 ```
-Restarting the kernel is a solution.
+Restarting the kernel is a solution. Removing all variables also works.
 
 
 <s>The lists need to be roled to avoid them getting too large.</s>

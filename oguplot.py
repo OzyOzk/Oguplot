@@ -48,8 +48,8 @@ def update():
   if len(csv) == 2:	    
     set1 = csv[0]
     set2 = csv[1]
-    data1.append(float(set1))
-    data2.append(float(set2))
+    data1.append(int(set1))
+    data2.append(int(set2))
     data1.pop(0)
     data2.pop(0)
     xdata1 = np.array(data1[-500:], dtype='int')

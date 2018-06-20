@@ -52,8 +52,8 @@ def update():
     data2.append(float(set2))
     data1.pop(0)
     data2.pop(0)
-    xdata1 = np.array(data1[-500:], dtype='float32')
-    xdata2 = np.array(data2[-500:], dtype='float32')
+    xdata1 = np.array(data1[-500:], dtype='int')
+    xdata2 = np.array(data2[-500:], dtype='int')
     curve1.setData(xdata1)
     x += 1
     curve1.setPos(x, 0)

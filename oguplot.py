@@ -1,16 +1,7 @@
-#!/usr/bin/env python
-#sudocode
-'''
-Need to add feature to split line into three components
-and display on same graph
-'''
 
 from pyqtgraph.Qt import QtGui, QtCore
-import pyqtgraph.widgets
 import numpy as np
-import pyqtgraph as pg
-#from pyqtgraph.ptime import time
-##======================================================
+import pyqtgraph as pg==============================================
 
 import serial.tools.list_ports
 controller = serial.Serial
@@ -22,7 +13,6 @@ for p in ports:
   print (p.serial_number)
   if p.serial_number == 9553034373435110E020:
     p.device
-
 
 ser = serial.Serial(p.device, 9600, timeout=1)
 if not ser.isOpen():
@@ -76,6 +66,7 @@ timer.timeout.connect(update)
 timer.start(0)
 
 ## Start Qt event loop unless running in interactive mode or using pyside.
+
 if __name__ == '__main__':
   import sys
   if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):

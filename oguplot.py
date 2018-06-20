@@ -24,6 +24,7 @@ app = QtGui.QApplication([])
 
 win = pg.GraphicsWindow(title="Ogu-plotter")
 win.resize(1000,600)
+win.useOpenGL
 
 pg.setConfigOptions(antialias=True)
 
@@ -31,8 +32,8 @@ p6 = win.addPlot(title="Raw accellerometer data")
 p6.setRange(yRange=[-18000,18000])
 
 p6.addLegend()
-curve1 = p6.plot(pen='y', name = "Accelerometer Y")
-curve2 = p6.plot(pen='g', name = "Accelerometer G")
+curve1 = p6.plot(pen='g', name = "Accelerometer X")
+curve2 = p6.plot(pen='y', name = "Accelerometer Y")
 
 p6.showGrid(x = True, y = True, alpha = 0.3) 
 

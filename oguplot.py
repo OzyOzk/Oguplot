@@ -12,13 +12,9 @@ from pyqtgraph.ptime import time
 ##======================================================
 
 import serial.tools.list_ports
-import time
 controller = serial.Serial
 
 targetsn = "9553034373435110E020"
-
-
-
 ports = serial.tools.list_ports.comports()
 
 for p in ports:
@@ -60,7 +56,6 @@ def update():
     data2.append(float(set2))
     data1.pop(0)
     data2.pop(0)
-    print (len(data1), len(data2))
     xdata1 = np.array(data1[-500:], dtype='float32')
     xdata2 = np.array(data2[-500:], dtype='float32')
     curve1.setData(xdata1)

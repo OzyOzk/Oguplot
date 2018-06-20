@@ -6,9 +6,10 @@ and display on same graph
 '''
 
 from pyqtgraph.Qt import QtGui, QtCore
+import pyqtgraph.widgets
 import numpy as np
 import pyqtgraph as pg
-from pyqtgraph.ptime import time
+#from pyqtgraph.ptime import time
 ##======================================================
 
 import serial.tools.list_ports
@@ -38,9 +39,13 @@ pg.setConfigOptions(antialias=True)
 
 p6 = win.addPlot(title="Raw accellerometer data")
 p6.setRange(yRange=[-18000,18000])
-curve1 = p6.plot(pen='y')
 
-curve2 = p6.plot(pen='g')
+p6.addLegend()
+curve1 = p6.plot(pen='y', name = "Accelerometer Y")
+curve2 = p6.plot(pen='g', name = "Accelerometer G")
+
+p6.showGrid(x = True, y = True, alpha = 0.3) 
+
 
 data1 = [0] * 500
 data2 = [0] * 500

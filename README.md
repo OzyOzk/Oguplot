@@ -12,35 +12,40 @@ live plot project. Will contain;
 
 Current Issues:
 
-The lists need to be roled to avoid them getting too large.
+Pyserial warning. The following error warning keeps coming up when I run on Windows 7 (does not happen on Ubuntu 14.04)
+```
+SerialException: could not open port 'COM3': PermissionError(13, 'Access is denied.', None, 5)
+```
+Restarting the kernel is a solution.
 
-These lines need to be replaced:
+
+<s>The lists need to be roled to avoid them getting too large.</s>
+
+<s>These lines need to be replaced</s>
+
+Now popping after each append,
 
 ```python
-data1 = [0]
-data2 = [0]
-data3 = [0]
-
 def update():
-    global curve1, curve2, data1, data2, data3
-    line = ser.readline()
-    csv = line.split(',')
-    if len(csv) == 3:
-	    set1 = csv[0]
-	    set2 = csv[1]
-	    set3 = csv[2]
-	    #print set1, set2
-	    data1.append(float(set1))
-	    data2.append(float(set2))
-            data3.append(float(set3))
+  global curve1, curve2, data1, data2, x
+  line = ser.readline()
+  csv = line.decode().split(',')
+  if len(csv) == 2:	    
+    set1 = csv[0]
+    set2 = csv[1]
+    data1.append(float(set1))
+    data2.append(float(set2))
+    data1.pop(0)
+    data2.pop(0)
+    xdata1 = np.array(data1[-500:], dtype='float32')
+    xdata2 = np.array(data2[-500:], dtype='float32')
+    curve1.setData(xdata1)
+    x += 1
+    curve1.setPos(x, 0)
+    curve2.setData(xdata2)
+    curve2.setPos(x, 0)
+    app.processEvents()
 ```
 
-the arrays keep growing. Also appending floats which are 32 bits each. These arrays (data1, data2, data3) grow in size significantly (3000 elements in 1 minute). 
-
-3000 x 3 x 32=288000.
-
-288000/4=72000 bytes
-
-72000/1000=72 megabytes/minute
 
 

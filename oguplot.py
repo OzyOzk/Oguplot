@@ -22,8 +22,8 @@ Once I find a proper solutio I will update the code.
 from pyqtgraph.Qt import QtGui, QtCore
 import numpy as np
 import pyqtgraph as pg
-
 import serial.tools.list_ports
+
 controller = serial.Serial
 
 #All ports
@@ -34,16 +34,16 @@ serial_number = "9553034373435110E020"
 #Scan all devices and queery for Serial number. 
 #Attach to device if found
 for p in ports:
-  print (p.serial_number)
   if p.serial_number == serial_number:
     comport = p.device
+    print("Found device on", p.device)
 
 #Serial object. Check if open. If not then open.
 ser = serial.Serial(comport, 9600, timeout=1)
 
 if not ser.isOpen():
   ser.open()
-print("port", comport, ser.isOpen())
+print("Port", comport, ser.isOpen())
 
 
 app = QtGui.QApplication([])
@@ -58,10 +58,11 @@ p6 = win.addPlot(title="Raw accellerometer data")
 p6.setRange(yRange=[-18000,18000])
 
 p6.addLegend()
-curve1 = p6.plot(pen='g', name = "Accelerometer X")
-curve2 = p6.plot(pen='y', name = "Accelerometer Y")
+curve1 = p6.plot(pen='y', name = "Accelerometer Y")
+curve2 = p6.plot(pen='g', name = "Accelerometer X")
 
-p6.showGrid(x = True, y = True, alpha = 0.3) 
+p6.showGrid(x = True, y = True, alpha = 0.8) 
+p6.setLabel('left', 'Amplitude (16bit Signed)')
 
 
 data1 = [0] * 500
@@ -72,11 +73,8 @@ def update():
   line = ser.readline()
   csv = line.decode().split(',')
   if len(csv) == 2:	    
-    set1 = csv[0]
-    set2 = csv[1]
-    
-    data1.append(int(set1))
-    data2.append(int(set2))
+    data1.append(int(csv[1]))
+    data2.append(int(csv[0]))
     data1.pop(0)
     data2.pop(0)
     xdata1 = np.array(data1[-500:], dtype='int')

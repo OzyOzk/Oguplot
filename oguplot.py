@@ -1,3 +1,23 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Jan 18 14:38:46 2018
+
+@author: OzyOzk
+"""
+
+"""
+If you are on a windows machine, after succesfully running the code once, if you
+terminated and run again, you will get the following error
+
+SerialException: could not open port 'COM3': PermissionError(13, 'Access is denied.', None, 5)
+
+You need to either reset your Kernel or delete all environment variables. On Spyder,
+this can be done in the Ipython console. Reset is inside the options menu on the top 
+right of the console (Cog symbol). Remove all variables is to the left of the Cog by
+the stop button.
+
+Once I find a proper solutio I will update the code. 
+"""
 
 from pyqtgraph.Qt import QtGui, QtCore
 import numpy as np
@@ -6,18 +26,24 @@ import pyqtgraph as pg
 import serial.tools.list_ports
 controller = serial.Serial
 
-targetsn = "9553034373435110E020"
+#All ports
 ports = serial.tools.list_ports.comports()
 
+serial_number = "9553034373435110E020"
+
+#Scan all devices and queery for Serial number. 
+#Attach to device if found
 for p in ports:
   print (p.serial_number)
-  if p.serial_number == 9553034373435110E020:
-    p.device
+  if p.serial_number == serial_number:
+    comport = p.device
 
-ser = serial.Serial(p.device, 9600, timeout=1)
+#Serial object. Check if open. If not then open.
+ser = serial.Serial(comport, 9600, timeout=1)
+
 if not ser.isOpen():
   ser.open()
-print('com3 is open', ser.isOpen())
+print("port", comport, ser.isOpen())
 
 
 app = QtGui.QApplication([])
@@ -48,6 +74,7 @@ def update():
   if len(csv) == 2:	    
     set1 = csv[0]
     set2 = csv[1]
+    
     data1.append(int(set1))
     data2.append(int(set2))
     data1.pop(0)

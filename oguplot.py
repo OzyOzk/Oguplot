@@ -16,7 +16,7 @@ this can be done in the Ipython console. Reset is inside the options menu on the
 right of the console (Cog symbol). Remove all variables is to the left of the Cog by
 the stop button.
 
-Once I find a proper solutio I will update the code. 
+Once I find a proper solution I will update the code. 
 """
 
 from pyqtgraph.Qt import QtGui, QtCore

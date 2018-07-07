@@ -9,6 +9,9 @@ live plot project. Will contain;
 * Workflow
 * Research
 * Features to be added
+### Demo
+
+[Demo of the script in action](https://www.youtube.com/watch?v=c8xMLtfUHTE)
 
 ### Current Issues:
 

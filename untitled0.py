@@ -1,45 +1,37 @@
-from pyqtgraph.Qt import QtGui, QtCore
-import numpy as np
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Nov  9 19:17:05 2018
+
+@author: Ouzi
+"""
+
+from PyQt5 import QtGui  # (the example applies equally well to PySide)
 import pyqtgraph as pg
-import serial.tools.list_ports
-import timeit
 
-controller = serial.Serial
+## Always start by initializing Qt (only once per application)
+app = QtGui.QApplication([])
 
-#All ports
-ports = serial.tools.list_ports.comports()
+## Define a top-level widget to hold everything
+w = QtGui.QWidget()
 
-serial_number = "9553034373435110E020"
+## Create some widgets to be placed inside
+btn = QtGui.QPushButton('press me')
+text = QtGui.QLineEdit('enter text')
+listw = QtGui.QListWidget()
+plot = pg.PlotWidget()
 
-#Scan all devices and queery for Serial number. 
-#Attach to device if found
-for p in ports:
-  if p.serial_number == serial_number:
-    comport = p.device
-    print("Found device on", p.device)
+## Create a grid layout to manage the widgets size and position
+layout = QtGui.QGridLayout()
+w.setLayout(layout)
 
-ser = serial.Serial(comport, 9600, timeout=1)
+## Add widgets to the layout in their proper positions
+layout.addWidget(btn, 0, 0)   # button goes in upper-left
+layout.addWidget(text, 1, 0)   # text edit goes in middle-left
+layout.addWidget(listw, 2, 0)  # list widget goes in bottom-left
+layout.addWidget(plot, 0, 1, 3, 1)  # plot goes on right side, spanning 3 rows
 
-#Serial object. Check if open. If not then open.
-if not ser.isOpen():
-  ser.open()
-print("Port", comport, ser.isOpen())
+## Display the widget as a new window
+w.show()
 
-data1 = [0] * 500
-data2 = [0] * 500
-x=0
-
-mysetup = "from math import sqrt"
-
-def testshift():
-  line = ser.readline()
-  csv = line.decode().split(',')
-  if len(csv) == 2:	    
-    data1.append(int(csv[1]))
-    data2.append(int(csv[0]))
-    data1.pop(0)
-    data2.pop(0)
-      
-print (timeit.timeit(setup = mysetup,
-                    stmt = testshift,
-                    number = 60)/60)
+## Start the Qt event loop
+app.exec_()

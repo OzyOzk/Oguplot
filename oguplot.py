@@ -18,82 +18,106 @@ the stop button.
 
 Once I find a proper solution I will update the code. 
 """
+import sys
 
-from pyqtgraph.Qt import QtGui, QtCore
 import numpy as np
 import pyqtgraph as pg
 import serial.tools.list_ports
+from PyQt5 import QtGui, QtCore
+from collections import deque
 
-controller = serial.Serial
-
-#All ports
-ports = serial.tools.list_ports.comports()
+ser = None
 
 serial_number = "9553034373435110E020"
 
-#Scan all devices and queery for Serial number. 
-#Attach to device if found
-for p in ports:
-  if p.serial_number == serial_number:
-    comport = p.device
-    print("Found device on", p.device)
+def find_device( sn ):
+  ports = serial.tools.list_ports.comports()
+  for p in ports:
+    if p.serial_number == sn:
+      comport = p.device
+      print("Found device on", p.device)
+      return comport
+  return "Not found"
 
-ser = serial.Serial(comport, 9600, timeout=1)
+def connect_to_device(comport):
+  return serial.Serial(comport, 9600, timeout=1)
 
-#Serial object. Check if open. If not then open.
-if not ser.isOpen():
-  ser.open()
-print("Port", comport, ser.isOpen())
 
+def poll_button(lineedit):
+  return(lineedit.text())
+  
+def qlewrapper():
+  serial_number = poll_button(t1)
+  comport = find_device(serial_number)
+  if(comport == "Not found"):
+    return
+  global ser
+  ser = connect_to_device(comport)
+  print(comport)
+  
 app = QtGui.QApplication([])
 
-pg.setConfigOptions(antialias=True)
-
-win = pg.GraphicsWindow(title="Ogu-plotter")
+win = QtGui.QWidget()
+win.setWindowTitle("OguPlot")
 win.resize(1000,600)
-win.useOpenGL
+layout = QtGui.QGridLayout()
+win.setLayout(layout)
 
-p6 = win.addPlot(title="Raw accellerometer data")
-p6.setRange(yRange=[-18000,18000])
-p6.addLegend()
-p6.showGrid(x = True, y = True, alpha = 0.8) 
-p6.setLabel('left', 'Amplitude (16bit Signed)')
+b1 = QtGui.QPushButton("Poll")
+b1.clicked.connect(qlewrapper)
 
-curve1 = p6.plot(pen='y', name = "Accelerometer Y")
-curve2 = p6.plot(pen='g', name = "Accelerometer X")
+t1 = QtGui.QLineEdit("")
 
-data1 = [0] * 500
-data2 = [0] * 500
+p1 = pg.PlotWidget()
+p1.setRange(yRange=[-18000,18000])
+p1.addLegend()
+p1.showGrid(x = True, y = True, alpha = 0.8) 
+p1.setLabel('left', 'Amplitude (16bit Signed)')
+
+curve1 = p1.plot(pen='y', name = "Data 1")
+curve2 = p1.plot(pen='g', name = "Data 2")
+
+layout.addWidget(p1,0,0,1,2)
+layout.addWidget(b1,1,0)
+layout.addWidget(t1,1,1)
+
+size = 500;
+buffersize = 2*500
+buffer1 = np.zeros(buffersize+1, int)
+buffer2 = np.zeros(buffersize+1, int)
+
 x=0
 
 def update():
-  global curve1, curve2, data1, data2, x
-  line = ser.readline()
-  csv = line.decode().split(',')
-  if len(csv) == 2:	    
-    data1.append(int(csv[1]))
-    data2.append(int(csv[0]))
-    data1.pop(0)
-    data2.pop(0)
-    xdata1 = np.array(data1[-500:], dtype='int')
-    xdata2 = np.array(data2[-500:], dtype='int')
-    curve1.setData(xdata1)
-    x += 1
-    curve1.setPos(x, 0)
-    curve2.setData(xdata2)
-    curve2.setPos(x, 0)
-    app.processEvents()
+  global curve1, curve2, data1, data2, x, ser, size, buffersize
+  if(ser != None):
+    line = ser.readline()
+    csv = line.decode().split(',')
+    x+=1
+    if len(csv) == 2:	   
+      
+      i=buffer1[buffersize]
+      buffer1[i]=buffer1[i+size]=csv[0]
+      buffer1[buffersize]=i=(i+1)%size
+      
+      j=buffer2[buffersize]
+      buffer2[j]=buffer2[j+size]=csv[1]
+      buffer2[buffersize]=j=(j+1)%size      
+      
+      curve1.setData(buffer1[i:i+size])
+      curve1.setPos(x, 0)
+      curve2.setData(buffer2[j:j+size])
+      curve2.setPos(x, 0)
+      app.processEvents()
 
 timer = QtCore.QTimer()
 timer.timeout.connect(update)
 timer.start(0)
+if(ser != None):
+  timer.stop()
+win.show()
 
-## Start Qt event loop unless running in interactive mode or using pyside.
-
-if __name__ == '__main__':
-  import sys
-  if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-    QtGui.QApplication.instance().exec_()
+app.exec_()
 
 '''
 	print p.vid

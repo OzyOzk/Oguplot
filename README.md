@@ -11,15 +11,38 @@ live plot project. Will contain;
 * Features to be added
 ### Demo
 
-[Demo of the script in action](https://www.youtube.com/watch?v=c8xMLtfUHTE)
+[Demo of the old script in action](https://www.youtube.com/watch?v=c8xMLtfUHTE)
 
 ### Current Issues:
 
-Pyserial warning. The following error warning keeps coming up when I run on Windows 7 (does not happen on Ubuntu 14.04)
-```
+~~Pyserial warning. The following error warning keeps coming up when I run on Windows 7 (does not happen on Ubuntu 14.04)~~
+```python
 SerialException: could not open port 'COM3': PermissionError(13, 'Access is denied.', None, 5)
 ```
-Restarting the kernel is a solution. Removing all variables also works. (From IPython console in Spyder)
+~~Restarting the kernel is a solution. Removing all variables also works. (From IPython console in Spyder)~~
+
+**Issue resolved**. The program now checks if the port is available. 
+
+Also resolved an issue where every second time I run the script from the ipython console, the kernel crashes. Apparently this is
+due to the previous isntance of QT not being ternimated when the script is shut, thus when the script is executed again, the kernel
+crashes as Qt does not like more than one instance of itself running at once. Previously, a new instance would be created at the start;
+
+```python
+    app = QtGui.QApplication([])
+```
+
+Now the instance is created only if one does not already exist. Otherwise old instance is used
+```python
+if not QtGui.QApplication.instance():
+    app = QtGui.QApplication([])
+else:
+    app = QtGui.QApplication.instance()
+```
+
+### Added GUI
+
+The script no longer plots as soon as it is run. Now the serial number of the device printing csv values needs to be entered. Hitting
+poll button will then queery all connected serial devices for their serial numbers. If a matching serial number is found, the graph will start plotting. Also added a close button to close the current port. Hitting close will close the serial port and the plot will stop.
 
 ### Micro-controller setup
 

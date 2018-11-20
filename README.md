@@ -1,6 +1,8 @@
 __Oguplot Repository__
 =====================================
 
+![sample_image](https://github.com/OzyOzk/Oguplot/blob/master/window_sample.png)
+
 Repository to contain source code and versions of the python
 live plot project. Will contain;
 
@@ -23,9 +25,10 @@ SerialException: could not open port 'COM3': PermissionError(13, 'Access is deni
 
 **Issue resolved**. The program now checks if the port is available. 
 
-Also resolved an issue where every second time I run the script from the ipython console, the kernel crashes. Apparently this is
-due to the previous isntance of QT not being ternimated when the script is shut, thus when the script is executed again, the kernel
-crashes as Qt does not like more than one instance of itself running at once. Previously, a new instance would be created at the start;
+Also resolved an issue where every second time the script is run from the ipython console, the kernel crashes. This is specifically
+a spyder issue.This is due to the previous instance of QT not being ternimated when the script is shut, thus when the script is
+executed again, the kernel crashes as Qt does not like more than one instance of itself running at once. Previously, a new instance
+would be created at the start;
 
 ```python
     app = QtGui.QApplication([])

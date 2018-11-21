@@ -24,8 +24,8 @@ SerialException: could not open port 'COM3': PermissionError(13, 'Access is deni
 
 **Issue resolved**. The program now checks if the port is available. 
 
-Also resolved an issue where every second time the script is run from the ipython console, the kernel crashes. This is specifically
-a spyder issue.This is due to the previous instance of QT not being ternimated when the script is shut, thus when the script is
+Also resolved an issue where every second time the script is run from the ipython console, the kernel crashes. **This is specifically
+a spyder issue**. This is due to the previous instance of QT not being ternimated when the script is shut, thus when the script is
 executed again, the kernel crashes as Qt does not like more than one instance of itself running at once. Previously, a new instance
 would be created at the start;
 

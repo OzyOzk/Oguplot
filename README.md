@@ -7,9 +7,8 @@ Repository to contain source code and versions of the python
 live plot project. Will contain;
 
 * Code
-* Plan
+* Issues
 * Workflow
-* Research
 * Features to be added
 ### Demo
 

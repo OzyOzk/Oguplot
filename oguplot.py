@@ -4,6 +4,7 @@ import serial.tools.list_ports
 import pyqtgraph as pg
 import numpy as np
 import sys
+import math
 """
 Created on Thu Jan 18 14:38:46 2018
 
@@ -27,7 +28,12 @@ Once I find a proper solution I will update the code.
 
 ser = None
 dt = 5  # Time delta in milliseconds
+element_count = 0
+curves = list()
+curve_xdata = list()
 
+size = 500
+buffersize = 2*500
 #serial_number = "9553034373435110E020"
 
 
@@ -49,14 +55,40 @@ def poll_button(lineedit):
     return(lineedit.text())
 
 
+def find_length(ser):
+    elements = 0
+    for x in range(5):
+        line = ser.readline()
+        csv = line.decode().split(',')
+        elements += len(csv)
+    return elements/5
+
+
 def qlewrapper():
+    global element_count
     serial_number = poll_button(t1)
     comport = find_device(serial_number)
-    if(comport == "Not found"):
+    if comport == "Not found":
         return
     global ser
     ser = connect_to_device(comport)
     print(comport)
+    element_count = int(math.ceil(find_length(ser)))
+    print("There are", element_count, "values in the CSV")
+
+
+def make_curves(x, px):
+    global element_count, curves, curve_xdata, buffersize
+    for x in range(element_count):
+        curves[x] = px.plot()
+        curve_xdata[x] = np.zeros(buffersize+1, int)
+
+
+def shift_elements(buffer, csv):
+    global size, buffersize, element_count
+    i = buffer[buffersize]
+    buffer[i] = buffer[i+size] = csv[0]
+    buffer[buffersize] = i = (i+1) % size
 
 
 def close_port():
@@ -101,14 +133,14 @@ p1.setLabel('left', 'Amplitude (16bit Signed)')
 
 curve1 = p1.plot(pen='y', name="Data 1")
 curve2 = p1.plot(pen='g', name="Data 2")
+curve3 = p1.plot()
 
 layout.addWidget(p1, 0, 0, 1, 3)
 layout.addWidget(b1, 1, 0)
 layout.addWidget(t1, 1, 1)
 layout.addWidget(b2, 1, 2)
 
-size = 500
-buffersize = 2*500
+
 buffer1 = np.zeros(buffersize+1, int)
 buffer2 = np.zeros(buffersize+1, int)
 
@@ -116,7 +148,7 @@ x = 0
 
 
 def update():
-    global curve1, curve2, data1, data2, x, ser, size, buffersize
+    global curve1, curve2, x, ser, size, buffersize
     if(ser != None and ser.is_open):
         line = ser.readline()
         csv = line.decode().split(',')

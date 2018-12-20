@@ -1,6 +1,6 @@
 ## Unstable Branch
 
-There is still some work that need's to be done on this branch. Program is subject to crashing
+There is still some work that needs to be done on this branch. Program is subject to crashing
 
 __Oguplot Repository__
 =====================================

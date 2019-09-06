@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from PyQt5 import QtGui, QtCore
-import serial.tools.list_ports
+import serial.tools.list_ports as lp
 import pyqtgraph as pg
 import numpy as np
 from numpy import zeros
 import sys
 import math
+
+
 """
 Created on Thu Jan 18 14:38:46 2018
 

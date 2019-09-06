@@ -39,7 +39,9 @@ class Main:
 
     def pollButtonMethod(self):
         if self.device.find_device(self.window.t1.text(), self.window.t1.text()):
+            self.device.open()
             self.findElementCount()
+            print("element count: ", self.elementCount)
             for x in range(self.elementCount):
                 self.curveContainer.append(self.window.p1.plot(pen=self.plotColours[x], name=self.LegendFields[x], width=0.01))
             self.readyToPlot = True
@@ -59,15 +61,19 @@ class Main:
 
     def setData(self, curve_container, buffer, element):
         curve_container.setData(buffer[element:element+self.view])
-        curve_container.setPos(self.x, 0)
+        curve_container.setPos(self.XaxisValue, 0)
 
     def updatePlot(self):
         if self.readyToPlot:
+            print("Ready to plot")
             csv = self.device.readline().decode().split(',')
             self.XaxisValue += 1
             if len(csv) == self.elementCount:
+                print("up1 ", len(csv))
                 for el in range(self.elementCount):
+                    print("el is ", el,"csv0 is ", csv[0])
                     self.setData(self.curveContainer[el], self.buffers[el], self.shiftPlot(self.buffers[el], csv[el]))
+                    print("set Data Success")
             app.processEvents()
 
 

@@ -6,6 +6,7 @@ from numpy import zeros
 import sys
 from PyQt5.QtCore import QTimer
 
+
 class Main:
 
     dt = 2
@@ -45,6 +46,7 @@ class Main:
             for x in range(self.elementCount):
                 self.curveContainer.append(self.window.p1.plot(pen=self.plotColours[x], name=self.LegendFields[x], width=0.01))
             self.readyToPlot = True
+            print(self.curveContainer)
 
     def findElementCount(self):
         total = 0
@@ -54,14 +56,17 @@ class Main:
         self.elementCount = int(ceil(total/self.sampleSize))
 
     def shiftPlot(self, buffer, csv):
-        i = buffer[self.bufferSize]
+        print("starting of shiftPlot()")
+        i = int(buffer[self.bufferSize])
         buffer[i] = buffer[i+self.view] = csv
         buffer[self.bufferSize] = i = (i+1) % self.view
+        print("end of shiftPlot()")
         return i
 
     def setData(self, curve_container, buffer, element):
         curve_container.setData(buffer[element:element+self.view])
         curve_container.setPos(self.XaxisValue, 0)
+        print("end of setdata()")
 
     def updatePlot(self):
         if self.readyToPlot:

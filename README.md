@@ -44,7 +44,7 @@ else:
 ### Added GUI
 
 The script no longer plots as soon as it is run. Now the serial number of the device printing csv values needs to be entered. Hitting
-poll button will then queery all connected serial devices for their serial numbers. If a matching serial number is found, the graph will start plotting. Also added a close button to close the current port. Hitting close will close the serial port and the plot will stop.
+poll button will then query all connected serial devices for their serial numbers. If a matching serial number is found, the graph will start plotting. Also added a close button to close the current port. Hitting close will close the serial port and the plot will stop.
 
 ### Micro-controller setup
 
